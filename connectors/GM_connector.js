@@ -55,4 +55,25 @@ GMConnector.getSecurityInfo = (args) => {
   });
 };
 
+GMConnector.getFuelRange = (args) => {
+  log.info({
+    method: 'getFuelRange',
+    type: 'POST',
+    vehicleid: args.id,
+  });
+
+  return instance.post('/getEnergyService', {
+    id: args.id,
+    responseType: 'JSON',
+  })
+  .then((response) => response.data)
+  .catch((error) => {
+    log.error({
+      vendor: 'GM',
+      message: 'Error processing POST request to getEnergyService.',
+    });
+    throw new errorClass.OemRequestError(error);
+  });
+};
+
 module.exports = GMConnector;
