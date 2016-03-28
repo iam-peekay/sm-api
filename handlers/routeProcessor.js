@@ -18,8 +18,8 @@ const routeProcessor = (vehicleHandler) => {
       .then((response) => {
       // Send back response as JSON object
         res.json(response);
-      }).catch((error) => { // if error, pass the error to next middleware function
-        next(error);
+      }).catch((error) => {
+        next(error); // if error, pass the error to next middleware function
       });
   };
 };

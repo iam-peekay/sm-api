@@ -2,14 +2,12 @@
 // const Promise = require('bluebird');
 const bunyan = require('bunyan');
 const axios = require('axios');
+const errorClass = require('./../utils/errors/errors');
 const instance = axios.create({
   baseURL: 'http://gmapi.azurewebsites.net',
   headers: { 'Content-Type': 'application/json' },
 });
-const log = bunyan.createLogger({
-  name: 'connectors/GM_connector',
-  level: 'debug',
-});
+const log = bunyan.createLogger({ name: 'connectors/GM_connector' });
 
 function GMConnector() {
   console.log('anything?');
@@ -32,7 +30,7 @@ GMConnector.getVehicleInfo = (args) => {
       vendor: 'GM',
       message: 'Error processing POST request to getVehicleInfo.',
     });
-    throw new Error(error.stack);  // TODO: Build error class/handlers
+    throw new errorClass.OemRequestError(error);
   });
 };
 

@@ -1,9 +1,14 @@
 const _ = require('lodash');
 const Promise = require('bluebird');
+const bunyan = require('bunyan');
 const connectors = require('./../../connectors/');
 const GMConnector = connectors.getConnector('GM');
 const RequestValidator = require('./../../utils/requestValidator');
-
+const errorClass = require('./../../utils/errors/errors');
+const log = bunyan.createLogger({
+  name: 'connectors/GM_connector',
+  level: 'debug',
+});
 
 const getVehicleInfo = {};
 
@@ -16,8 +21,8 @@ getVehicleInfo._handleRequest = (req) => {
     .then((args) => processRequest(args))
     .then((response) => shapeResponse(response))
     .catch((error) => {
-      console.log(error.stack, 'ERROR');
-      throw new Error(error.stack); // TODO: build error handlers
+      log.info('Error processing user request: ', error);
+      throw new Error(error);
     });
 };
 

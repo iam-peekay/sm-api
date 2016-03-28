@@ -1,5 +1,6 @@
 // const _ = require('lodash');
 const Promise = require('bluebird');
+const errorClass = require('./errors/errors');
 const bunyan = require('bunyan');
 const log = bunyan.createLogger({
   name: 'requestValidator',
@@ -37,8 +38,8 @@ Request.prototype.validate = function (valid, error) {
   if (!valid) {
     this._currentErrors[error.type] = error.message;
     log.debug('User input error: ', error);
+    throw new errorClass.requestValidationError(error);
   }
-
   // To make this validation function chainable for handling
   // multiple validations on one action, we must return this
   return this;
