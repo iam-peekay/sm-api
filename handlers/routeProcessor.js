@@ -10,7 +10,7 @@ const routeProcessor = (vehicleHandler) => {
     * original function's return values or rejected with thrown exceptions
     * from the original function.
     */
-    const handleRequest = Promise.method(vehicleHandler.handleRequest);
+    const handleRequest = Promise.method(vehicleHandler._handleRequest);
 
     /*
     * Pass request to the specified vehicle request handler,

@@ -19,16 +19,16 @@ function GMConnector() {
   console.log('anything?');
 };
 
-GMConnector.getVehicleInfo = (vehicleid) => {
+GMConnector.getVehicleInfo = (args) => {
 
   log.info({
     method: 'getVehicleInfo',
     type: 'POST',
-    vehicleid: vehicleid
+    vehicleid: args.id
   });
 
   return instance.post('/getVehicleInfoService', {
-    id: vehicleid.toString(),
+    id: args.id,
     responseType: 'JSON',
    })
    .then((response) => {
