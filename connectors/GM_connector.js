@@ -97,4 +97,29 @@ GMConnector.getBatteryRange = (args) => {
   });
 };
 
+GMConnector.postEngine = (args) => {
+  log.info({
+    method: 'getBatteryRange',
+    type: 'POST',
+    vehicleid: args.id,
+    action: args.action
+  });
+
+  const postEngineType = {
+    id: args.id,
+    command: args.action === 'START' ? 'START_VEHICLE' : 'STOP_VEHICLE',
+    responseType: 'JSON',
+  };
+
+  return instance.post('/actionEngineService', postEngineType)
+  .then((response) => response.data)
+  .catch((error) => {
+    log.error({
+      vendor: 'GM',
+      message: 'Error processing POST request to getEnergyService.',
+    });
+    throw new errorClass.OemRequestError(error);
+  });
+};
+
 module.exports = GMConnector;
