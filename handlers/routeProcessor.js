@@ -4,7 +4,6 @@ const Promise = require('bluebird');
 
 const routeProcessor = (vehicleHandler) => {
   return (req, res, next) => {
-
     var handleRequest = Promise.method(vehicleHandler.handleRequest);
 
     // Validate request
