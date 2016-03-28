@@ -1,5 +1,3 @@
-'use strict';
-
 const Promise = require('bluebird');
 
 const routeProcessor = (vehicleHandler) => {
@@ -11,7 +9,6 @@ const routeProcessor = (vehicleHandler) => {
     * from the original function.
     */
     const handleRequest = Promise.method(vehicleHandler._handleRequest);
-
     /*
     * Pass request to the specified vehicle request handler,
     * which will verify and process the request and send back
@@ -24,7 +21,7 @@ const routeProcessor = (vehicleHandler) => {
       }).catch((error) => { // if error, pass the error to next middleware function
         next(error);
       });
-  }
-}
+  };
+};
 
 module.exports = routeProcessor;

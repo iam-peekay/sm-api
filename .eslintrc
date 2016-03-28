@@ -1,0 +1,15 @@
+{
+    "extends": "airbnb",
+    "env": {
+        "node": true,
+        "mocha": true,
+        "es6": true
+    },
+    "ecmaFeatures": {
+        "es6": true
+    },
+    "rules": {
+        "indent": [2, 2, {"SwitchCase": 1}],
+        "arrow-body-style": [2, "always"]
+    }
+}

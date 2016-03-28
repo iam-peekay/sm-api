@@ -3,9 +3,9 @@ const url = require('url');
 const buildUrl = (host, pathname) => {
   return url.format({
     protocol: 'http',
-    host: host,
-    pathname: pathname
-  })
+    host,
+    pathname,
+  });
 };
 
 module.exports = buildUrl;

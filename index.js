@@ -1,15 +1,13 @@
-'use strict';
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const bunyan = require('bunyan');
 const cors = require('cors');
 const port = process.env.PORT || 3000;
 const app = express();
-const vehiclesRoute = express.Router();
+const vehiclesRoute = new express.Router();
 
 // Set up logger for server logs. Bunyan formats logs as JSON
-var log = bunyan.createLogger({
+const log = bunyan.createLogger({
   name: 'sm-api',
   level: 'debug',
 });
