@@ -10,12 +10,12 @@ const log = bunyan.createLogger({
   level: 'debug',
 });
 
-const getVehicleInfo = {};
+const getSecurityInfo = {};
 
-getVehicleInfo._handleRequest = (req) => {
-  const validateRequest = Promise.method(getVehicleInfo._validateRequest);
-  const processRequest = Promise.method(getVehicleInfo._processRequest);
-  const shapeResponse = Promise.method(getVehicleInfo._shapeResponse);
+getSecurityInfo._handleRequest = (req) => {
+  const validateRequest = Promise.method(getSecurityInfo._validateRequest);
+  const processRequest = Promise.method(getSecurityInfo._processRequest);
+  const shapeResponse = Promise.method(getSecurityInfo._shapeResponse);
 
   return validateRequest(req)
     .then((args) => processRequest(args))
@@ -26,7 +26,7 @@ getVehicleInfo._handleRequest = (req) => {
     });
 };
 
-getVehicleInfo._validateRequest = (req) => {
+getSecurityInfo._validateRequest = (req) => {
   const id = req.params.id;
   return RequestValidator
           .validate(_.isString(id), {
@@ -45,19 +45,21 @@ getVehicleInfo._validateRequest = (req) => {
           });
 };
 
-getVehicleInfo._processRequest = (args) => {
-  return GMConnector.getVehicleInfo(args);
+getSecurityInfo._processRequest = (args) => {
+  return GMConnector.getSecurityInfo(args);
 };
 
-getVehicleInfo._shapeResponse = (response) => {
-  const doorCount = response.data.fourDoorSedan.value === 'True' ? 4 : 2;
-  const smartcarResponse = {
-    vin: response.data.vin.value,
-    color: response.data.color.value,
-    doorCount,
-    driveTrain: response.data.driveTrain.value,
-  };
+getSecurityInfo._shapeResponse = (response) => {
+  const smartcarResponse = [];
+  console.log(response.data.doors.values);
+  _.forEach(response.data.doors.values, (value, key) => {
+    smartcarResponse.push({
+      location: value.location.value,
+      locked: value.locked.value,
+    });
+  });
+
   return smartcarResponse;
 };
 
-module.exports = getVehicleInfo;
+module.exports = getSecurityInfo;

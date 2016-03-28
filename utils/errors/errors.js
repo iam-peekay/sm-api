@@ -2,7 +2,7 @@ const util = require('util');
 const errorMessages = require('./messages');
 
 /*
-* We use Node Error class to build our error class:
+* We use the Node Error class to build our error class:
 * A generic JavaScript Error object that does not denote any specific
 * circumstance of why the error occurred. Error objects capture a
 * "stack trace" detailing the point in the code at which the Error
@@ -23,12 +23,19 @@ ApiError.prototype.requestValidationError = function (error) {
   Error.captureStackTrace(this, ApiError);
 }
 
-
 ApiError.prototype.OemRequestError = function (error) {
   this.type = 'oem_request_error';
   this.code = 500;
   this.error = error;
   this.message = errorMessages.oemRequestError;
+  Error.captureStackTrace(this, ApiError);
+}
+
+ApiError.prototype.authenticationError = function (error) {
+  this.type = 'authentication_error';
+  this.code = 401;
+  this.error = error;
+  this.message = errorMessages.authenticationError;
   Error.captureStackTrace(this, ApiError);
 }
 

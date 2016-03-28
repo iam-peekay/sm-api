@@ -34,4 +34,25 @@ GMConnector.getVehicleInfo = (args) => {
   });
 };
 
+GMConnector.getSecurityInfo = (args) => {
+  log.info({
+    method: 'getSecurityInfo',
+    type: 'POST',
+    vehicleid: args.id,
+  });
+
+  return instance.post('/getSecurityStatusService', {
+    id: args.id,
+    responseType: 'JSON',
+  })
+  .then((response) => response.data)
+  .catch((error) => {
+    log.error({
+      vendor: 'GM',
+      message: 'Error processing POST request to getSecurityInfo.',
+    });
+    throw new errorClass.OemRequestError(error);
+  });
+};
+
 module.exports = GMConnector;
