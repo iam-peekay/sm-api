@@ -2,26 +2,32 @@
 
 const _ = require('lodash');
 const Promise = require('bluebird');
+const connectors = require('./../../connectors/');
+const GMConnector = connectors.getConnector('GM');
 
 var getVehicleInfo = {};
 
 getVehicleInfo.handleRequest = (req) => {
-  return getVehicleInfo._validateRequest(req)
-    .then((args) => getVehicleInfo._processRequest(args))
-    .then((response) => getVehicleInfo._formatResponse(response));
+  var validateRequest = Promise.method(getVehicleInfo._validateRequest);
+  var processRequest = Promise.method(getVehicleInfo._processRequest);
+  var formatRequest = Promise.method(getVehicleInfo._formatResponse);
+
+  return validateRequest(req)
+    .then((args) => processRequest(args))
+    .then((response) => formatRequest(response))
+    .catch((error) => console.log(error, 'ERROR')); // TODO: build error handlers
 }
 
 getVehicleInfo._validateRequest = (req) => {
-  return Promise.resolve(req);
+  return req.params;
 }
 
 getVehicleInfo._processRequest = (args) => {
-  return Promise.resolve(args);
+  return GMConnector.getVehicleInfo(1234);
 }
 
 getVehicleInfo._formatResponse = (response) => {
-  console.log('res', response);
-  return { something: 'testing123' };
+  return { testing: response };
 }
 
 module.exports = getVehicleInfo;

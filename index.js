@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 const vehiclesRoute = express.Router();
 
-// Set up logger
+// Set up logger for server logs. Bunyan formats logs as JSON
 var log = bunyan.createLogger({
   name: 'sm-api',
   level: 'debug',

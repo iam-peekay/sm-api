@@ -18,13 +18,13 @@
   },
   "homepage": "https://github.com/iam-peekay/sm-api#readme",
   "dependencies": {
+    "axios": "^0.9.1",
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
     "bunyan": "^1.8.0",
     "cors": "^2.7.1",
     "express": "^4.13.4",
-    "lodash": "^4.6.1",
-    "request-promise": "^2.0.1"
+    "lodash": "^4.6.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

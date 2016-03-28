@@ -3,5 +3,5 @@
 const vehicleHandlers = require('./../handlers/vehicle');
 
 module.exports = (vehicles) => {
-  vehicles.get('/', vehicleHandlers.getVehicleInfo);
+  vehicles.get('/:id', vehicleHandlers.getVehicleInfo);
 };
