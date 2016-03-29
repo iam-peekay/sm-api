@@ -47,7 +47,7 @@ getVehicleInfo._validateRequest = (req) => {
 };
 
 getVehicleInfo._processRequest = (args) => {
-  return GMConnector.getVehicleInfo(args);
+  return GMConnector._getVehicleInfo(args);
 };
 
 getVehicleInfo._shapeResponse = (response) => {

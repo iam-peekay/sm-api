@@ -7,16 +7,16 @@ const log = bunyan.createLogger({
 
 const connectors = {};
 
-connectors.GM = require('./GM_Connector');
+connectors['GM'] = require('./GM_Connector');
 
 connectors.getConnector = (vendor) => {
-  const connector = connectors[vendor];
-  if (!connector || !_.isFunction(connector)) {
+  const Connector = connectors[vendor];
+  if (!Connector || !_.isObject(Connector)) {
     log.warn(`Error retrieving ${vendor}'s connector`);
     throw new Error();
   }
 
-  return connector;
+  return new Connector();
 };
 
 module.exports = connectors;

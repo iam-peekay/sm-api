@@ -47,7 +47,7 @@ getBatteryRange._validateRequest = (req) => {
 };
 
 getBatteryRange._processRequest = (args) => {
-  return GMConnector.getBatteryRange(args);
+  return GMConnector._getBatteryRange(args);
 };
 
 getBatteryRange._shapeResponse = (response) => {

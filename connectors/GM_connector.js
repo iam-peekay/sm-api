@@ -1,9 +1,11 @@
-const bunyan = require('bunyan');
 const axios = require('axios');
+const bunyan = require('bunyan');
+const log = bunyan.createLogger({ name: 'connectors/GM_connector' });
 const errorClass = require('./../utils/errors/errors');
 const instance = axios.create({
   baseURL: 'http://gmapi.azurewebsites.net',
   headers: { 'Content-Type': 'application/json' },
+  timeout: 10000,
 });
 const retryFailedRequest = (err) => {
   if (err.status >= 500 && err.config && !err.config.__isRetryRequest) {
@@ -14,13 +16,9 @@ const retryFailedRequest = (err) => {
 };
 instance.interceptors.response.use(undefined, retryFailedRequest);
 
-const log = bunyan.createLogger({ name: 'connectors/GM_connector' });
+function GMConnectorModule() {}
 
-function GMConnector() {
-  console.log('anything?');
-}
-
-GMConnector.getVehicleInfo = (args) => {
+GMConnectorModule.prototype._getVehicleInfo = function (args) {
   log.info({
     method: 'getVehicleInfo',
     type: 'POST',
@@ -39,9 +37,9 @@ GMConnector.getVehicleInfo = (args) => {
     });
     throw new errorClass.OemRequestError(error);
   });
-};
+}
 
-GMConnector.getSecurityInfo = (args) => {
+GMConnectorModule.prototype._getSecurityInfo = function (args) {
   log.info({
     method: 'getSecurityInfo',
     type: 'POST',
@@ -60,9 +58,9 @@ GMConnector.getSecurityInfo = (args) => {
     });
     throw new errorClass.OemRequestError(error);
   });
-};
+}
 
-GMConnector.getFuelRange = (args) => {
+GMConnectorModule.prototype._getFuelRange = function (args) {
   log.info({
     method: 'getFuelRange',
     type: 'POST',
@@ -81,9 +79,9 @@ GMConnector.getFuelRange = (args) => {
     });
     throw new errorClass.OemRequestError(error);
   });
-};
+}
 
-GMConnector.getBatteryRange = (args) => {
+GMConnectorModule.prototype._getBatteryRange = function (args) {
   log.info({
     method: 'getBatteryRange',
     type: 'POST',
@@ -104,7 +102,7 @@ GMConnector.getBatteryRange = (args) => {
   });
 };
 
-GMConnector.postEngine = (args) => {
+GMConnectorModule.prototype._postEngine = function (args) {
   log.info({
     method: 'getBatteryRange',
     type: 'POST',
@@ -123,10 +121,10 @@ GMConnector.postEngine = (args) => {
   .catch((error) => {
     log.error({
       vendor: 'GM',
-      message: 'Error processing POST request to getEnergyService.',
+      message: 'Error processing POST request to actionEngineService.',
     });
     throw new errorClass.OemRequestError(error);
   });
-};
+}
 
-module.exports = GMConnector;
+module.exports = GMConnectorModule;

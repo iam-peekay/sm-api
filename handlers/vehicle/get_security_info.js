@@ -47,7 +47,7 @@ getSecurityInfo._validateRequest = (req) => {
 };
 
 getSecurityInfo._processRequest = (args) => {
-  return GMConnector.getSecurityInfo(args);
+  return GMConnector._getSecurityInfo(args);
 };
 
 getSecurityInfo._shapeResponse = (response) => {

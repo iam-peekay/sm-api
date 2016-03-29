@@ -47,7 +47,7 @@ getFuelRange._validateRequest = (req) => {
 };
 
 getFuelRange._processRequest = (args) => {
-  return GMConnector.getFuelRange(args);
+  return GMConnector._getFuelRange(args);
 };
 
 getFuelRange._shapeResponse = (response) => {

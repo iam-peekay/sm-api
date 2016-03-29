@@ -58,7 +58,7 @@ postEngine._validateRequest = (req) => {
 };
 
 postEngine._processRequest = (args) => {
-  return GMConnector.postEngine(args);
+  return GMConnector._postEngine(args);
 };
 
 postEngine._shapeResponse = (response) => {
