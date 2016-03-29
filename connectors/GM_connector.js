@@ -1,5 +1,3 @@
-// const _ = require('lodash');
-// const Promise = require('bluebird');
 const bunyan = require('bunyan');
 const axios = require('axios');
 const errorClass = require('./../utils/errors/errors');

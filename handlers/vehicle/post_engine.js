@@ -4,7 +4,8 @@ const bunyan = require('bunyan');
 const connectors = require('./../../connectors/');
 const GMConnector = connectors.getConnector('GM');
 const RequestValidator = require('./../../utils/requestValidator');
-const errorClass = require('./../../utils/errors/errors');
+const invalidResponse = require('./../../utils/responseValidator');
+const errorMessages = require('./../../utils/errors/messages');
 const log = bunyan.createLogger({
   name: 'connectors/GM_connector',
   level: 'debug',
@@ -61,8 +62,14 @@ postEngine._processRequest = (args) => {
 };
 
 postEngine._shapeResponse = (response) => {
+  var status;
+  if (invalidResponse(response.actionResult.status)) {
+    status =  errorMessages.oemResponseError;
+  } else {
+    status = response.actionResult.status === 'EXECUTED' ? 'success' : 'error';
+  }
   const smartcarResponse = {
-    status: response.actionResult.status === 'EXECUTED' ? 'success' : 'failure',
+    status,
   };
   return smartcarResponse;
 };

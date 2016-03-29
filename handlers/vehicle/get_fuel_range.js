@@ -4,7 +4,8 @@ const bunyan = require('bunyan');
 const connectors = require('./../../connectors/');
 const GMConnector = connectors.getConnector('GM');
 const RequestValidator = require('./../../utils/requestValidator');
-const errorClass = require('./../../utils/errors/errors');
+const invalidResponse = require('./../../utils/responseValidator');
+const errorMessages = require('./../../utils/errors/messages');
 const log = bunyan.createLogger({
   name: 'connectors/GM_connector',
   level: 'debug',
@@ -51,7 +52,7 @@ getFuelRange._processRequest = (args) => {
 
 getFuelRange._shapeResponse = (response) => {
   const smartcarResponse = {
-    percent: Number(response.data.tankLevel.value),
+    percent: invalidResponse(response.data.tankLevel.value) ? errorMessages.oemResponseError : _.toInteger(response.data.tankLevel.value),
   };
   return smartcarResponse;
 };

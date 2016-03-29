@@ -4,7 +4,8 @@ const bunyan = require('bunyan');
 const connectors = require('./../../connectors/');
 const GMConnector = connectors.getConnector('GM');
 const RequestValidator = require('./../../utils/requestValidator');
-const errorClass = require('./../../utils/errors/errors');
+const invalidResponse = require('./../../utils/responseValidator');
+const errorMessages = require('./../../utils/errors/messages');
 const log = bunyan.createLogger({
   name: 'connectors/GM_connector',
   level: 'debug',
@@ -51,11 +52,11 @@ getSecurityInfo._processRequest = (args) => {
 
 getSecurityInfo._shapeResponse = (response) => {
   const smartcarResponse = [];
-  console.log(response.data.doors.values);
+
   _.forEach(response.data.doors.values, (value, key) => {
     smartcarResponse.push({
-      location: value.location.value,
-      locked: value.locked.value,
+      location: invalidResponse(value.location.value) ? errorMessages.oemResponseError : value.location.value,
+      locked: invalidResponse(value.locked.value) ? errorMessages.oemResponseError : Boolean(value.locked.value),
     });
   });
 

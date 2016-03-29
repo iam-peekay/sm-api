@@ -4,7 +4,8 @@ const bunyan = require('bunyan');
 const connectors = require('./../../connectors/');
 const GMConnector = connectors.getConnector('GM');
 const RequestValidator = require('./../../utils/requestValidator');
-const errorClass = require('./../../utils/errors/errors');
+const invalidResponse = require('./../../utils/responseValidator');
+const errorMessages = require('./../../utils/errors/messages');
 const log = bunyan.createLogger({
   name: 'connectors/GM_connector',
   level: 'debug',
@@ -52,10 +53,10 @@ getVehicleInfo._processRequest = (args) => {
 getVehicleInfo._shapeResponse = (response) => {
   const doorCount = response.data.fourDoorSedan.value === 'True' ? 4 : 2;
   const smartcarResponse = {
-    vin: response.data.vin.value,
-    color: response.data.color.value,
-    doorCount,
-    driveTrain: response.data.driveTrain.value,
+    vin: invalidResponse(response.data.vin.value) ? errorMessages.oemResponseError : response.data.vin.value,
+    color: invalidResponse(response.data.color.value) ? errorMessages.oemResponseError : response.data.color.value,
+    doorCount: invalidResponse(response.data.fourDoorSedan.value) ? errorMessages.oemResponseError : doorCount,
+    driveTrain: invalidResponse(response.data.driveTrain.value) ? errorMessages.oemResponseError : response.data.driveTrain.value,
   };
   return smartcarResponse;
 };

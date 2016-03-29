@@ -1,4 +1,3 @@
-// const _ = require('lodash');
 const Promise = require('bluebird');
 const errorClass = require('./errors/errors');
 const bunyan = require('bunyan');
