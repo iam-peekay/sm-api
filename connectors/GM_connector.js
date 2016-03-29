@@ -5,7 +5,7 @@ const errorClass = require('./../utils/errors/errors');
 const instance = axios.create({
   baseURL: 'http://gmapi.azurewebsites.net',
   headers: { 'Content-Type': 'application/json' },
-  timeout: 10000,
+  timeout: 8000,
 });
 const retryFailedRequest = (err) => {
   if (err.status >= 500 && err.config && !err.config.__isRetryRequest) {
