@@ -5,6 +5,15 @@ const instance = axios.create({
   baseURL: 'http://gmapi.azurewebsites.net',
   headers: { 'Content-Type': 'application/json' },
 });
+const retryFailedRequest = (err) => {
+  if (err.status >= 500 && err.config && !err.config.__isRetryRequest) {
+    err.config.__isRetryRequest = true;
+    return instance(err.config);
+  }
+  throw err;
+};
+instance.interceptors.response.use(undefined, retryFailedRequest);
+
 const log = bunyan.createLogger({ name: 'connectors/GM_connector' });
 
 function GMConnector() {
