@@ -7,7 +7,7 @@ const RequestValidator = require('./../../utils/requestValidator');
 const invalidResponse = require('./../../utils/responseValidator');
 const errorMessages = require('./../../utils/errors/messages');
 const log = bunyan.createLogger({
-  name: 'connectors/GM_connector',
+  name: 'handlers/post_engine',
   level: 'debug',
 });
 
