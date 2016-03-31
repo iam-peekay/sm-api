@@ -31,11 +31,11 @@ getFuelRange._validateRequest = (req) => {
   const id = req.params.id;
   return RequestValidator
           .validate(_.isString(id), {
-            type: 'Input type',
+            type: 'Parameter type',
             message: '"Id" param must be a string',
           })
           .validate(_.isEqual(id, '1234') || _.isEqual(id, '1235'), {
-            type: 'Input value',
+            type: 'Parameter value',
             message: '"Id" param must be either "1234" or "1235"',
           })
           .return()

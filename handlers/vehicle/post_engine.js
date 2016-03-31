@@ -41,11 +41,11 @@ postEngine._validateRequest = (req) => {
             message: '"Id" param must be either "1234" or "1235"',
           })
           .validate(_.isString(action), {
-            type: 'Parameter type',
+            type: 'Body type',
             message: '"Action" value must be a string',
           })
           .validate(_.isEqual(action, 'START') || _.isEqual(action, 'STOP'), {
-            type: 'Parameter value',
+            type: 'Body value',
             message: '"Action" must be either "START" or "STOP"',
           })
           .return()

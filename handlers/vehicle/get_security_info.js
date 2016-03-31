@@ -31,11 +31,11 @@ getSecurityInfo._validateRequest = (req) => {
   const id = req.params.id;
   return RequestValidator
           .validate(_.isString(id), {
-            type: 'Input type',
+            type: 'Parameter type',
             message: '"Id" param must be a string',
           })
           .validate(_.isEqual(id, '1234') || _.isEqual(id, '1235'), {
-            type: 'Input value',
+            type: 'Parameter value',
             message: '"Id" param must be either "1234" or "1235"',
           })
           .return()
@@ -56,7 +56,7 @@ getSecurityInfo._shapeResponse = (response) => {
   _.forEach(response.data.doors.values, (value, key) => {
     smartcarResponse.push({
       location: invalidResponse(value.location.value) ? errorMessages.oemResponseError : value.location.value,
-      locked: invalidResponse(value.locked.value) ? errorMessages.oemResponseError : Boolean(value.locked.value),
+      locked: invalidResponse(value.locked.value) ? errorMessages.oemResponseError : (value.locked.value === 'True'),
     });
   });
 
