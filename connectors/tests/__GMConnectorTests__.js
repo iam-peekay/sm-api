@@ -13,7 +13,7 @@ const errorMessages = require('./../../utils/errors/messages');
 describe('GM connector', function() {
 
   describe('POST /getVehicleInfo - success', function () {
-    var gmScope, gmConnector, response;
+    var gmScope, gmConnector;
 
     before(function() {
       gmScope = nock('http://gmapi.azurewebsites.net');
@@ -35,7 +35,6 @@ describe('GM connector', function() {
       it('should return 200 response with vehicle info', function() {
         return gmConnector._getVehicleInfo({ "id": "1234"})
                 .then(function(response) {
-                  response = response;
                   expect(response.status).to.equal('200');
                   expect(response.data.vin.value).to.equal('123123412412');
                   expect(response.data.color.value).to.equal('Metallic Silver');
@@ -48,7 +47,7 @@ describe('GM connector', function() {
   });
 
   describe('POST /getVehicleInfo - error', function () {
-    var gmScope, gmConnector, response;
+    var gmScope, gmConnector;
 
     before(function() {
       gmScope = nock('http://gmapi.azurewebsites.net');
@@ -112,7 +111,7 @@ describe('GM connector', function() {
   });
 
   describe('POST /getSecurityStatusService - error', function () {
-    var gmScope, gmConnector, response;
+    var gmScope, gmConnector;
 
     before(function() {
       gmScope = nock('http://gmapi.azurewebsites.net');
@@ -174,7 +173,7 @@ describe('GM connector', function() {
   });
 
   describe('POST /getEnergyService (fuel) - error', function () {
-    var gmScope, gmConnector, response;
+    var gmScope, gmConnector;
 
     before(function() {
       gmScope = nock('http://gmapi.azurewebsites.net');
@@ -236,7 +235,7 @@ describe('GM connector', function() {
   });
 
   describe('POST /getEnergyService (battery) - error', function () {
-    var gmScope, gmConnector, response;
+    var gmScope, gmConnector;
 
     before(function() {
       gmScope = nock('http://gmapi.azurewebsites.net');
@@ -299,7 +298,7 @@ describe('GM connector', function() {
   });
 
   describe('POST /actionEngineService - error', function () {
-    var gmScope, gmConnector, response;
+    var gmScope, gmConnector;
 
     before(function() {
       gmScope = nock('http://gmapi.azurewebsites.net');
