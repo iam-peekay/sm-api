@@ -20,7 +20,7 @@ function GMConnectorModule() {}
 
 GMConnectorModule.prototype._getVehicleInfo = function (args) {
   log.info({
-    method: 'getVehicleInfo',
+    method: '_getVehicleInfo',
     type: 'POST',
     vehicleid: args.id,
   });
@@ -41,7 +41,7 @@ GMConnectorModule.prototype._getVehicleInfo = function (args) {
 
 GMConnectorModule.prototype._getSecurityInfo = function (args) {
   log.info({
-    method: 'getSecurityInfo',
+    method: '_getSecurityInfo',
     type: 'POST',
     vehicleid: args.id,
   });
@@ -62,7 +62,7 @@ GMConnectorModule.prototype._getSecurityInfo = function (args) {
 
 GMConnectorModule.prototype._getFuelRange = function (args) {
   log.info({
-    method: 'getFuelRange',
+    method: '_getFuelRange',
     type: 'POST',
     vehicleid: args.id,
   });
@@ -83,7 +83,7 @@ GMConnectorModule.prototype._getFuelRange = function (args) {
 
 GMConnectorModule.prototype._getBatteryRange = function (args) {
   log.info({
-    method: 'getBatteryRange',
+    method: '_getBatteryRange',
     type: 'POST',
     vehicleid: args.id,
   });
@@ -104,7 +104,7 @@ GMConnectorModule.prototype._getBatteryRange = function (args) {
 
 GMConnectorModule.prototype._postEngine = function (args) {
   log.info({
-    method: 'getBatteryRange',
+    method: '_postEngine',
     type: 'POST',
     vehicleid: args.id,
     action: args.action
