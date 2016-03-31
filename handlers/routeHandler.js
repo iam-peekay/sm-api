@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 
-const routeProcessor = (vehicleHandler) => {
+const routeHandler = (vehicleHandler) => {
   return (req, res, next) => {
     /*
     * Returns a new function that wraps the given vehicle request handler
@@ -14,14 +14,15 @@ const routeProcessor = (vehicleHandler) => {
     * which will verify and process the request and send back
     * a formatted response.
     */
-    handleRequest(req)
-      .then((response) => {
-      // Send back response as JSON object
-        res.json(response);
-      }).catch((error) => {
-        next(error); // if error, pass the error to next middleware function
-      });
+    return handleRequest(req)
+            .then((response) => {
+            // Send back response as JSON object
+              return res.json(response);
+            }).catch((error) => {
+              console.log('=====sfsdfsd====', error)
+              next(error); // if error, pass the error to next middleware function
+            });
   };
 };
 
-module.exports = routeProcessor;
+module.exports = routeHandler;
