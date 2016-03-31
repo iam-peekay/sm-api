@@ -1,6 +1,5 @@
 const chai = require('chai');
 const expect = chai.expect;
-const should = chai.should();
 const sinon = require('sinon');
 const postEngine = require('./../vehicle/post_engine');
 const errorMessages = require('./../../utils/errors/messages');

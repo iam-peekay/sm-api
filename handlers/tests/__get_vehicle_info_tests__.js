@@ -1,6 +1,5 @@
 const chai = require('chai');
 const expect = chai.expect;
-const should = chai.should();
 const sinon = require('sinon');
 const getVehicleInfo = require('./../vehicle/get_vehicle_info');
 const errorMessages = require('./../../utils/errors/messages');

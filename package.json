@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
     "dirty-chai": "^1.2.2",
     "eslint": "^2.5.1",
     "eslint-config-airbnb": "^6.2.0",

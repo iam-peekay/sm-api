@@ -26,6 +26,8 @@ app.use('/vehicles', vehiclesRoute);
 require('./routes/vehicles')(vehiclesRoute);
 
 // Start server
-app.listen(port, () => {
+const server = app.listen(port, () => {
   log.info('==> Listening on port %s.', port);
 });
+
+module.exports = server;
