@@ -9,7 +9,11 @@
         "es6": true
     },
     "rules": {
-        "indent": [2, 2, {"SwitchCase": 1}],
-        "arrow-body-style": [2, "always"]
+        "arrow-body-style": 0,
+        "no-param-reassign": ["error", { "props": false }],
+        "no-else-return": 0,
+        "max-len": 0,
+        "func-names": 0,
+        "new-cap": 0,
     }
 }

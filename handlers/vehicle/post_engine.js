@@ -6,7 +6,7 @@ const GMConnector = connectors.getConnector('GM');
 const RequestValidator = require('./../../utils/requestValidator');
 const invalidResponse = require('./../../utils/responseValidator');
 const errorConstants = require('./../../utils/errors/constants');
-const errorClass = require('./../../utils/errors/errors');
+const ErrorClass = require('./../../utils/errors/errors');
 const log = bunyan.createLogger({
   name: 'handlers/post_engine',
   level: 'debug',
@@ -49,9 +49,9 @@ postEngine._handleRequest = (req, res) => {
 * @returns {Object} an object with Vehicle id and type of engine action (START|STOP)
 */
 
-postEngine._validateRequest = (req, res) => {
+postEngine._validateRequest = (req) => {
   if (!req.body.action) {
-    const error = new errorClass.requestValidationError('Missing "action" request body parameter.');
+    const error = new ErrorClass.requestValidationError('Missing "action" request body parameter.');
     log.warn('User input error: ', error);
     throw error;
   }
@@ -61,15 +61,19 @@ postEngine._validateRequest = (req, res) => {
 
   return RequestValidator
           .validate(_.isString(id), {
+            param: 'id',
             message: 'Parameter type error: "Id" param must be a string',
           })
           .validate(_.isEqual(id, '1234') || _.isEqual(id, '1235'), {
+            param: 'id',
             message: 'Parameter value error: "Id" param must be either "1234" or "1235"',
           })
           .validate(_.isString(action), {
+            param: 'action',
             message: 'Request body type error: "Action" value must be a string',
           })
           .validate(_.isEqual(action, 'START') || _.isEqual(action, 'STOP'), {
+            param: 'action',
             message: 'Request body value error: "Action" must be either "START" or "STOP"',
           })
           .return()
@@ -106,7 +110,7 @@ postEngine._processRequest = (args) => {
 postEngine._shapeResponse = (response) => {
   var status;
   if (invalidResponse(response.actionResult.status)) {
-    status =  errorConstants.oemResponseError;
+    status = errorConstants.oemResponseError;
   } else {
     status = response.actionResult.status === 'EXECUTED' ? 'success' : 'error';
   }

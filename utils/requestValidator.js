@@ -1,5 +1,5 @@
 const Promise = require('bluebird');
-const errorClass = require('./errors/errors');
+const ErrorClass = require('./errors/errors');
 const bunyan = require('bunyan');
 const log = bunyan.createLogger({
   name: 'requestValidator',
@@ -31,7 +31,7 @@ Request.prototype.validate = function (valid, error) {
   // If request isn't validated, append the error to current API
   // call's error object
   if (!valid) {
-    this._currentErrors[error.type] = error.message;
+    this._currentErrors[error.param] = error.message;
     log.warn('User input error: ', error);
   }
   // To make this validation function chainable for handling
@@ -62,7 +62,7 @@ Request.prototype.return = function () {
     // Reset the current API call errors object
     this._currentErrors = {};
     // Reject promise with the errors from current API call
-    return Promise.reject(new errorClass.requestValidationError(errors));
+    return Promise.reject(new ErrorClass.requestValidationError(errors));
   }
 };
 

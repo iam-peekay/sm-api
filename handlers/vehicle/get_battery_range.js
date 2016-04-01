@@ -36,8 +36,7 @@ getBatteryRange._handleRequest = (req, res) => {
     .then((response) => shapeResponse(response))
     .catch((error) => {
       log.info('Error processing user request: ', error);
-      // res.status(error.code).send({ error: error.message });
-      next(error);
+      res.status(error.code).send({ error: error.error, message: error.message });
       // throw new Error(error);
     });
 };
@@ -49,13 +48,15 @@ getBatteryRange._handleRequest = (req, res) => {
 * @returns {Object} an object with Vehicle id
 */
 
-getBatteryRange._validateRequest = (req, res) => {
+getBatteryRange._validateRequest = (req) => {
   const id = req.params.id;
   return RequestValidator
           .validate(_.isString(id), {
+            param: 'id',
             message: 'Parameter type error: "Id" param must be a string',
           })
           .validate(_.isEqual(id, '1234') || _.isEqual(id, '1235'), {
+            param: 'id',
             message: 'Parameter value error: "Id" param must be either "1234" or "1235"',
           })
           .return()

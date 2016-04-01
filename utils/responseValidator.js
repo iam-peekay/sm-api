@@ -10,6 +10,6 @@ const invalidResponse = (value) => {
   }
 
   return false;
-}
+};
 
 module.exports = invalidResponse;

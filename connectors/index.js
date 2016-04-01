@@ -8,7 +8,7 @@ const log = bunyan.createLogger({
 // Define our connectors object with each vendor's connectors
 const connectors = {};
 
-connectors['GM'] = require('./GM_Connector');
+connectors.GM = require('./GM_Connector');
 
 /*
 * Method that returns the appropriate connector based on the vendor

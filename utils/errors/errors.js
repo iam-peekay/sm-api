@@ -21,7 +21,7 @@ ApiError.prototype.requestValidationError = function (error) {
   // frame would go up in the .stack property. By passing
   // the constructor, we omit that frame and all frames above it.
   Error.captureStackTrace(this, ApiError);
-}
+};
 
 ApiError.prototype.OemRequestError = function (error) {
   this.type = 'oem_request_error';
@@ -29,7 +29,7 @@ ApiError.prototype.OemRequestError = function (error) {
   this.error = error;
   this.message = errorConstants.oemRequestError;
   Error.captureStackTrace(this, ApiError);
-}
+};
 
 ApiError.prototype.smartcarServerError = function (error) {
   this.type = 'smartcar_server_error';
@@ -37,7 +37,7 @@ ApiError.prototype.smartcarServerError = function (error) {
   this.error = error;
   this.message = errorConstants.smartcarServerError;
   Error.captureStackTrace(this, ApiError);
-}
+};
 
 ApiError.prototype.authenticationError = function (error) {
   this.type = 'authentication_error';
@@ -45,7 +45,7 @@ ApiError.prototype.authenticationError = function (error) {
   this.error = error;
   this.message = errorConstants.authenticationError;
   Error.captureStackTrace(this, ApiError);
-}
+};
 
 const errorClass = new ApiError();
 

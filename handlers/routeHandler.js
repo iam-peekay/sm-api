@@ -2,7 +2,7 @@ const _ = require('lodash');
 const Promise = require('bluebird');
 const bunyan = require('bunyan');
 const errorConstants = require('./../utils/errors/constants');
-const errorClass = require('./../utils/errors/errors');
+const ErrorClass = require('./../utils/errors/errors');
 const log = bunyan.createLogger({
   name: 'handlers/routeHandler',
   level: 'warn',
@@ -14,10 +14,9 @@ const log = bunyan.createLogger({
 
 const routeHandler = (vehicleHandler) => {
   return (req, res) => {
-
     // If vehicle handler is missing, throw error immediately
     if (!vehicleHandler || !_.isObject(vehicleHandler) || !vehicleHandler._handleRequest) {
-      const error = new errorClass.smartcarServerError('Invalid or missing vehicle handler.');
+      const error = new ErrorClass.smartcarServerError('Invalid or missing vehicle handler.');
       log.warn('vehicle handler is undefined or invalid: ', error);
       return res.status(500).send({ error: error.error, message: error.message });
     }
@@ -34,15 +33,15 @@ const routeHandler = (vehicleHandler) => {
     * a formatted response.
     */
     return handleRequest(req, res)
-            .then((result) => {
-            // Send back response as JSON object
-              return res.json(result);
-            })
+            .then((result) => { return res.json(result); }) // Send back response as JSON object
             .catch((error) => {
                // If the error propogated up to here, then it must mean it's an
                // uncaught exception.
-               log.warn('Uncaught program error, please check logs ASAP.');
-               return res.status(500).send({ error: 'null', message: errorConstants.smartcarServerError });
+              log.warn('Uncaught program error, please check logs ASAP: ', error);
+              return res.status(500).send({
+                error: 'null',
+                message: errorConstants.smartcarServerError,
+              });
             });
   };
 };

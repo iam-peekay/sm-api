@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-// Create an axios instance with GM's base URL and request headers 
+// Create an axios instance with GM's base URL and request headers
 const instance = axios.create({
   baseURL: 'http://gmapi.azurewebsites.net',
   headers: { 'Content-Type': 'application/json' },

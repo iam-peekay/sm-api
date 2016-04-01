@@ -37,7 +37,7 @@ GMConnectorModule.prototype._getVehicleInfo = function (args) {
     });
     throw new errorClass.OemRequestError(error);
   });
-}
+};
 
 /**
 * @private
@@ -66,7 +66,7 @@ GMConnectorModule.prototype._getSecurityInfo = function (args) {
     });
     throw new errorClass.OemRequestError(error);
   });
-}
+};
 
 /**
 * @private
@@ -95,7 +95,7 @@ GMConnectorModule.prototype._getFuelRange = function (args) {
     });
     throw new errorClass.OemRequestError(error);
   });
-}
+};
 
 /**
 * @private
@@ -139,7 +139,7 @@ GMConnectorModule.prototype._postEngine = function (args) {
     method: '_postEngine',
     type: 'POST',
     vehicleid: args.id,
-    action: args.action
+    action: args.action,
   });
 
   const postEngineType = {
@@ -157,6 +157,6 @@ GMConnectorModule.prototype._postEngine = function (args) {
     });
     throw new errorClass.OemRequestError(error);
   });
-}
+};
 
 module.exports = GMConnectorModule;
