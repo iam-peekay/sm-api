@@ -48,13 +48,20 @@ describe('rounteHandler', function() {
 
       mockHandler._validateRequest = (req) => {
         const id = req.params.id;
+        const validationObject = {
+          1: {
+            valid: _.isString(id),
+            param: 'id',
+            message: 'Parameter type error: "Id" param must be a string',
+          },
+          2: {
+            valid: (_.isEqual(id, '1234') || _.isEqual(id, '1235')),
+            param: 'id',
+            message:  'Parameter value error: "Id" param must be either "1234" or "1235"',
+          },
+        };
         return RequestValidator
-                .validate(_.isString(id), {
-                  message: 'Parameter type error: "Id" param must be a string',
-                })
-                .validate(_.isEqual(id, '1234') || _.isEqual(id, '1235'), {
-                  message: 'Parameter value error: "Id" param must be either "1234" or "1235"',
-                })
+                .validate(validationObject)
                 .return()
                 .then(() => {
                   return {
@@ -105,7 +112,7 @@ describe('rounteHandler', function() {
 
     context('when invalid (mock) vehicle handler is passed in', function() {
       const expectedResult = {
-        'error': 'Invalid or missing vehicle handler.',
+        'error': 'Invalid or undefined vehicle handler.',
         'message': errorConstants.smartcarServerError,
       };
       it('should return 500 internal server response', function() {

@@ -3,7 +3,7 @@ const ErrorClass = require('./errors/errors');
 const bunyan = require('bunyan');
 const log = bunyan.createLogger({
   name: 'requestValidator',
-  level: 'warn',
+  level: 'debug',
 });
 
 /**
@@ -27,15 +27,24 @@ function Request() {
 * @returns {Object} this
 */
 
-Request.prototype.validate = function (valid, error) {
-  // If request isn't validated, append the error to current API
-  // call's error object
-  if (!valid) {
-    this._currentErrors[error.param] = error.message;
-    log.warn('User input error: ', error);
+Request.prototype.validate = function (validationObject) {
+  // for each key in validation object
+  var key;
+  var current;
+  for (key in validationObject) {
+    current = validationObject[key];
+    // check if the validation fails
+    if (current.valid === false) {
+      // add the current validation error message to list of current errors
+      if (!this._currentErrors[current.param]) {
+        this._currentErrors[current.param] = [current.message];
+      } else {
+        this._currentErrors[current.param].push(current.message);
+      }
+      log.info('User input error: ', current.message);
+    }
   }
-  // To make this validation function chainable for handling
-  // multiple validations in a row, we must return this
+  // To make this validation function chainable, return this
   return this;
 };
 
@@ -64,6 +73,13 @@ Request.prototype.return = function () {
     // Reject promise with the errors from current API call
     return Promise.reject(new ErrorClass.requestValidationError(errors));
   }
+};
+
+Request.prototype.getArchivedErrors = function () {
+  if (Object.keys(this._archivedErrors).length > 0) {
+    return this._archivedErrors;
+  }
+  return 'No errors';
 };
 
 const RequestValidator = new Request();

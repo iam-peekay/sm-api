@@ -38,7 +38,6 @@ postEngine._handleRequest = (req, res) => {
     .catch((error) => {
       log.info('Error processing user request: ', error);
       res.status(error.code).send({ error: error.error, message: error.message });
-      // throw new Error(error);
     });
 };
 
@@ -50,32 +49,40 @@ postEngine._handleRequest = (req, res) => {
 */
 
 postEngine._validateRequest = (req) => {
+  // If request body is midding action key, throw early
   if (!req.body.action) {
     const error = new ErrorClass.requestValidationError('Missing "action" request body parameter.');
-    log.warn('User input error: ', error);
+    log.info('User input error: ', error);
     throw error;
   }
 
   const id = req.params.id;
   const action = req.body.action.toUpperCase();
-
+  // Object with request parameters validation definitions
+  const validationObject = {
+    1: {
+      valid: _.isString(id),
+      param: 'id',
+      message: 'Parameter type error: "Id" param must be a string',
+    },
+    2: {
+      valid: (_.isEqual(id, '1234') || _.isEqual(id, '1235')),
+      param: 'id',
+      message: 'Parameter value error: "Id" param must be either "1234" or "1235"',
+    },
+    3: {
+      valid: (_.isString(action)),
+      param: 'action',
+      message: 'Request body type error: "Action" value must be a string',
+    },
+    4: {
+      valid: (_.isEqual(action, 'START') || _.isEqual(action, 'STOP')),
+      param: 'action',
+      message: 'Request body value error: "Action" must be either "START" or "STOP"',
+    },
+  };
   return RequestValidator
-          .validate(_.isString(id), {
-            param: 'id',
-            message: 'Parameter type error: "Id" param must be a string',
-          })
-          .validate(_.isEqual(id, '1234') || _.isEqual(id, '1235'), {
-            param: 'id',
-            message: 'Parameter value error: "Id" param must be either "1234" or "1235"',
-          })
-          .validate(_.isString(action), {
-            param: 'action',
-            message: 'Request body type error: "Action" value must be a string',
-          })
-          .validate(_.isEqual(action, 'START') || _.isEqual(action, 'STOP'), {
-            param: 'action',
-            message: 'Request body value error: "Action" must be either "START" or "STOP"',
-          })
+          .validate(validationObject)
           .return()
           .then(() => {
             return {

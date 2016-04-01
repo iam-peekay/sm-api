@@ -6,10 +6,9 @@ const vehicleHandlers = require('./../handlers/vehicle');
 */
 
 module.exports = (vehicles) => {
-
   /**
   * @function Get vehicle information
-  * @param {string} id Vehicle's id
+  * @param {String} id Vehicle's id
   * @returns {Object}
   * {
   *   "vin": "1213231",
@@ -42,7 +41,7 @@ module.exports = (vehicles) => {
 
   /**
   * @function Get vehicle fuel range
-  * @param {string} id Vehicle's id
+  * @param {String} id Vehicle's id
   * @returns {Object}
   * {
   *   "percent": 30,
@@ -53,7 +52,7 @@ module.exports = (vehicles) => {
 
   /**
   * @function Get vehicle battery range
-  * @param {string} id Vehicle's id
+  * @param {String} id Vehicle's id
   * @returns {Object}
   * {
   *   "percent": 50,
@@ -63,8 +62,8 @@ module.exports = (vehicles) => {
 
   /**
   * @function Start or stop engine
-  * @param {string} id Vehicle's id
-  * @param {string} action (START vs. STOP)
+  * @param {String} id Vehicle's id
+  * @param {String} action (START vs. STOP)
   * @returns {Object}
   * {
   *   "status": "success|error",

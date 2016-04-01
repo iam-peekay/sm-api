@@ -16,8 +16,8 @@ const routeHandler = (vehicleHandler) => {
   return (req, res) => {
     // If vehicle handler is missing, throw error immediately
     if (!vehicleHandler || !_.isObject(vehicleHandler) || !vehicleHandler._handleRequest) {
-      const error = new ErrorClass.smartcarServerError('Invalid or missing vehicle handler.');
-      log.warn('vehicle handler is undefined or invalid: ', error);
+      const error = new ErrorClass.smartcarServerError('Invalid or undefined vehicle handler.');
+      log.warn('vehicle handler is invalid or undefined: ', error);
       return res.status(500).send({ error: error.error, message: error.message });
     }
     /*
