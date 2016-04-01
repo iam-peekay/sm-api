@@ -32,7 +32,7 @@ describe('getBatteryRange handler', function() {
                 })
                 .catch(function(error) {
                   expect(error).to.exist;
-                  expect(error).to.contain.all.keys(['Parameter type', 'Parameter value'])
+                  expect(error).to.contain.all.keys(['code', 'error', 'message', 'type'])
                 });
       });
     });
@@ -47,7 +47,7 @@ describe('getBatteryRange handler', function() {
                 })
                 .catch(function(error) {
                   expect(error).to.exist;
-                  expect(error).to.contain.all.keys(['Parameter value'])
+                  expect(error).to.contain.all.keys(['code', 'error', 'message', 'type'])
                 });
       });
     });

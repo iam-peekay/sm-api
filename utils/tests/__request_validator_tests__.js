@@ -26,7 +26,14 @@ describe('requestValidator', function() {
       type: 'Parameter type',
       message: '"Id" param must be a string',
     };
-    const expectedErrorResponse = { 'Parameter type': '"Id" param must be a string' };
+    const expectedErrorResponse = {
+      'code': 400,
+      'error': {
+        'Parameter type': '"Id" param must be a string',
+      },
+      'message':  'Invalid or missing request parameters. Please check API docs for details on request parameters.',
+      'type': 'request_validation_error',
+    };
     it('should reject Promise with all errors', function() {
       return requestValidator.validate(input, error)
               .return()

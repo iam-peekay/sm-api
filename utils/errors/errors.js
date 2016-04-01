@@ -31,6 +31,14 @@ ApiError.prototype.OemRequestError = function (error) {
   Error.captureStackTrace(this, ApiError);
 }
 
+ApiError.prototype.smartcarServerError = function (error) {
+  this.type = 'smartcar_server_error';
+  this.code = 500;
+  this.error = error;
+  this.message = errorMessages.smartcarServerError;
+  Error.captureStackTrace(this, ApiError);
+}
+
 ApiError.prototype.authenticationError = function (error) {
   this.type = 'authentication_error';
   this.code = 401;

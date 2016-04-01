@@ -11,7 +11,20 @@ const log = bunyan.createLogger({
   level: 'debug',
 });
 
+/**
+* @description A module that handles posting engine action (START|STOP) using vendor connector
+* @private
+*/
+
 const postEngine = {};
+
+/**
+* @private
+* @function Promise returning function that calls methods to validate the
+* request, process the request and finally shape the response
+* @param {Object} req express.js request object
+* @returns {Object} Formatted response
+*/
 
 postEngine._handleRequest = (req) => {
   const validateRequest = Promise.method(postEngine._validateRequest);
@@ -26,6 +39,13 @@ postEngine._handleRequest = (req) => {
       throw new Error(error);
     });
 };
+
+/**
+* @private
+* @function Promise returning function that validates the request params/body
+* @param {Object} req express.js request object
+* @returns {Object} an object with Vehicle id and type of engine action (START|STOP)
+*/
 
 postEngine._validateRequest = (req) => {
   const id = req.params.id;
@@ -57,9 +77,23 @@ postEngine._validateRequest = (req) => {
           });
 };
 
+/**
+* @private
+* @function Promise returning function that processes the request
+* @param {Object} an object with Vehicle id
+* @returns {Object} Promise returning GM connector method that handles the request
+*/
+
 postEngine._processRequest = (args) => {
   return GMConnector._postEngine(args);
 };
+
+/**
+* @private
+* @function Shapes the GM response into a Smartcar API formatted response
+* @param {Object} response response from GM API
+* @returns {Object} an object with shaped response
+*/
 
 postEngine._shapeResponse = (response) => {
   var status;

@@ -1,22 +1,22 @@
-const axios = require('axios');
+const instance = require('./httpInstance');
 const bunyan = require('bunyan');
 const log = bunyan.createLogger({ name: 'connectors/GM_connector' });
 const errorClass = require('./../utils/errors/errors');
-const instance = axios.create({
-  baseURL: 'http://gmapi.azurewebsites.net',
-  headers: { 'Content-Type': 'application/json' },
-  timeout: 8000,
-});
-const retryFailedRequest = (err) => {
-  if (err.status >= 500 && err.config && !err.config.__isRetryRequest) {
-    err.config.__isRetryRequest = true;
-    return instance(err.config);
-  }
-  throw err;
-};
-instance.interceptors.response.use(undefined, retryFailedRequest);
+
+/**
+* @description A module that connects to the GM API to makes API requests
+* @private
+*/
 
 function GMConnectorModule() {}
+
+/**
+* @private
+* @function Hits the /getVehicleInfoService endpoint to get basic
+* vehicle info
+* @param {Object} args Object with Vehicle's id
+* @returns {Object} GM response object
+*/
 
 GMConnectorModule.prototype._getVehicleInfo = function (args) {
   log.info({
@@ -39,6 +39,14 @@ GMConnectorModule.prototype._getVehicleInfo = function (args) {
   });
 }
 
+/**
+* @private
+* @function Hits the /getSecurityStatusService endpoint to get vehicle
+* security info
+* @param {Object} args Object with Vehicle's id
+* @returns {Object} GM response object
+*/
+
 GMConnectorModule.prototype._getSecurityInfo = function (args) {
   log.info({
     method: '_getSecurityInfo',
@@ -59,6 +67,14 @@ GMConnectorModule.prototype._getSecurityInfo = function (args) {
     throw new errorClass.OemRequestError(error);
   });
 }
+
+/**
+* @private
+* @function Hits the /getEnergyService endpoint to get vehicle's
+* fuel range info
+* @param {Object} args Object with Vehicle's id
+* @returns {Object} GM response object
+*/
 
 GMConnectorModule.prototype._getFuelRange = function (args) {
   log.info({
@@ -81,6 +97,14 @@ GMConnectorModule.prototype._getFuelRange = function (args) {
   });
 }
 
+/**
+* @private
+* @function Hits the /getEnergyService endpoint to get vehicle's
+* battery range info
+* @param {Object} args Object with Vehicle's id
+* @returns {Object} GM response object
+*/
+
 GMConnectorModule.prototype._getBatteryRange = function (args) {
   log.info({
     method: '_getBatteryRange',
@@ -101,6 +125,14 @@ GMConnectorModule.prototype._getBatteryRange = function (args) {
     throw new errorClass.OemRequestError(error);
   });
 };
+
+/**
+* @private
+* @function Hits the /actionEngineService endpoint to send a
+* start or stop signal to the vehicle
+* @param {Object} args Object with Vehicle's id and type of action (START|STOP)
+* @returns {Object} GM response object indicating execution status
+*/
 
 GMConnectorModule.prototype._postEngine = function (args) {
   log.info({

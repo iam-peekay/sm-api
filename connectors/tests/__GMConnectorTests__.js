@@ -70,7 +70,8 @@ describe('GM connector', function() {
                 .then(function() {
                 })
                 .catch(function(error) {
-                  expect(error.error.status).to.equal(404);
+                  expect(error.type).to.equal('oem_request_error');
+                  expect(error.code).to.equal(500);
                   expect(error.message).to.equal(errorMessages.oemRequestError);
                 });
       });
@@ -134,7 +135,8 @@ describe('GM connector', function() {
                 .then(function() {
                 })
                 .catch(function(error) {
-                  expect(error.error.status).to.equal(404);
+                  expect(error.type).to.equal('oem_request_error');
+                  expect(error.code).to.equal(500);
                   expect(error.message).to.equal(errorMessages.oemRequestError);
                 });
       });
@@ -196,7 +198,8 @@ describe('GM connector', function() {
                 .then(function() {
                 })
                 .catch(function(error) {
-                  expect(error.error.status).to.equal(404);
+                  expect(error.type).to.equal('oem_request_error');
+                  expect(error.code).to.equal(500);
                   expect(error.message).to.equal(errorMessages.oemRequestError);
                 });
       });
@@ -258,7 +261,8 @@ describe('GM connector', function() {
                 .then(function() {
                 })
                 .catch(function(error) {
-                  expect(error.error.status).to.equal(404);
+                  expect(error.type).to.equal('oem_request_error');
+                  expect(error.code).to.equal(500);
                   expect(error.message).to.equal(errorMessages.oemRequestError);
                 });
       });
@@ -321,7 +325,8 @@ describe('GM connector', function() {
                 .then(function() {
                 })
                 .catch(function(error) {
-                  expect(error.error.status).to.equal(404);
+                  expect(error.type).to.equal('oem_request_error');
+                  expect(error.code).to.equal(500);
                   expect(error.message).to.equal(errorMessages.oemRequestError);
                 });
       });

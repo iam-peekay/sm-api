@@ -11,7 +11,20 @@ const log = bunyan.createLogger({
   level: 'debug',
 });
 
+/**
+* @description A module that handles getting battery range using vendor connector
+* @private
+*/
+
 const getBatteryRange = {};
+
+/**
+* @private
+* @function Promise returning function that calls methods to validate the
+* request, process the request and finally shape the response
+* @param {Object} req express.js request object
+* @returns {Object} Formatted response
+*/
 
 getBatteryRange._handleRequest = (req) => {
   const validateRequest = Promise.method(getBatteryRange._validateRequest);
@@ -26,6 +39,13 @@ getBatteryRange._handleRequest = (req) => {
       throw new Error(error);
     });
 };
+
+/**
+* @private
+* @function Promise returning function that validates the request params/body
+* @param {Object} req express.js request object
+* @returns {Object} an object with Vehicle id
+*/
 
 getBatteryRange._validateRequest = (req) => {
   const id = req.params.id;
@@ -46,9 +66,23 @@ getBatteryRange._validateRequest = (req) => {
           });
 };
 
+/**
+* @private
+* @function Promise returning function that processes the request
+* @param {Object} an object with Vehicle id
+* @returns {Object} Promise returning GM connector method that handles the request
+*/
+
 getBatteryRange._processRequest = (args) => {
   return GMConnector._getBatteryRange(args);
 };
+
+/**
+* @private
+* @function Shapes the GM response into a Smartcar API formatted response
+* @param {Object} response response from GM API
+* @returns {Object} an object with shaped response
+*/
 
 getBatteryRange._shapeResponse = (response) => {
   const smartcarResponse = {

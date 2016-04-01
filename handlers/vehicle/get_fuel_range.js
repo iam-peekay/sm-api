@@ -11,7 +11,20 @@ const log = bunyan.createLogger({
   level: 'debug',
 });
 
+/**
+* @description A module that handles getting fuel range using vendor connector
+* @private
+*/
+
 const getFuelRange = {};
+
+/**
+* @private
+* @function Promise returning function that calls methods to validate the
+* request, process the request and finally shape the response
+* @param {Object} req express.js request object
+* @returns {Object} Formatted response
+*/
 
 getFuelRange._handleRequest = (req) => {
   const validateRequest = Promise.method(getFuelRange._validateRequest);
@@ -23,9 +36,16 @@ getFuelRange._handleRequest = (req) => {
     .then((response) => shapeResponse(response))
     .catch((error) => {
       log.info('Error processing user request: ', error);
-      throw new Error(error);
+      throw new Error({ message: error });
     });
 };
+
+/**
+* @private
+* @function Promise returning function that validates the request params/body
+* @param {Object} req express.js request object
+* @returns {Object} an object with Vehicle id
+*/
 
 getFuelRange._validateRequest = (req) => {
   const id = req.params.id;
@@ -46,9 +66,23 @@ getFuelRange._validateRequest = (req) => {
           });
 };
 
+/**
+* @private
+* @function Promise returning function that processes the request
+* @param {Object} an object with Vehicle id
+* @returns {Object} Promise returning GM connector method that handles the request
+*/
+
 getFuelRange._processRequest = (args) => {
   return GMConnector._getFuelRange(args);
 };
+
+/**
+* @private
+* @function Shapes the GM response into a Smartcar API formatted response
+* @param {Object} response response from GM API
+* @returns {Object} an object with shaped response
+*/
 
 getFuelRange._shapeResponse = (response) => {
   const smartcarResponse = {

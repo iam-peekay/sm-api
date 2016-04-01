@@ -106,7 +106,12 @@ describe('rounteHandler', function() {
     });
 
     context('when invalid (mock) vehicle handler is passed in', function() {
-      const expectedResult = { error: errorMessages.smartcarServerError };
+      const expectedResult = {
+        'code': 500,
+        'error': errorMessages.smartcarServerError,
+        'message': errorMessages.smartcarServerError,
+        'type': 'smartcar_server_error',
+      };
 
       it('should return 500 internal server response', function() {
         expect(routeHandler({})(mock_request, new mockExpressRes()).json).to.deep.equal(expectedResult);

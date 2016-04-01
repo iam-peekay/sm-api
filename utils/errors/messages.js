@@ -1,3 +1,4 @@
+// Define error message constants
 const messages = {
   validationError: 'Invalid or missing request parameters. Please check API docs for details on request parameters.',
   oemRequestError: 'Bad response from OEM. Please try again in a few seconds.',

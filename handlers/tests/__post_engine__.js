@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const postEngine = require('./../vehicle/post_engine');
 const errorMessages = require('./../../utils/errors/messages');
 
-describe('getVehicleInfo handler', function() {
+describe('postEngine handler', function() {
 
   describe('processRequest', function () {
 
@@ -34,7 +34,7 @@ describe('getVehicleInfo handler', function() {
                 })
                 .catch(function(error) {
                   expect(error).to.exist;
-                  expect(error).to.contain.all.keys(['Parameter type', 'Parameter value'])
+                  expect(error).to.contain.all.keys(['code', 'error', 'message', 'type'])
                 });
       });
     });
@@ -50,7 +50,7 @@ describe('getVehicleInfo handler', function() {
                 })
                 .catch(function(error) {
                   expect(error).to.exist;
-                  expect(error).to.contain.all.keys(['Parameter value', 'Body value'])
+                  expect(error).to.contain.all.keys(['code', 'error', 'message', 'type'])
                 });
       });
     });

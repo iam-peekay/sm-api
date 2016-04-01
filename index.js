@@ -12,8 +12,8 @@ const log = bunyan.createLogger({
   level: 'debug',
 });
 
-// Log server start
-log.info('Server has been started');
+// Log start of server
+log.info('Server has been started on port %s.', port);
 
 // Parse json request body into javascript object
 app.use(bodyParser.json());
@@ -21,13 +21,14 @@ app.use(bodyParser.json());
 // Enable CORS for routes
 app.use(cors());
 
-// Define main API endpoint route
+// Define main API endpoint vehicle route
 app.use('/vehicles', vehiclesRoute);
 require('./routes/vehicles')(vehiclesRoute);
 
-// Start server
+// Start server on defined port
 const server = app.listen(port, () => {
-  log.info('==> Listening on port %s.', port);
+  console.info('==> Listening on port %s.', port);
 });
 
+// Export used for testing
 module.exports = server;
