@@ -26,17 +26,18 @@ const getFuelRange = {};
 * @returns {Object} Formatted response
 */
 
-getFuelRange._handleRequest = (req) => {
+getFuelRange._handleRequest = (req, res) => {
   const validateRequest = Promise.method(getFuelRange._validateRequest);
   const processRequest = Promise.method(getFuelRange._processRequest);
   const shapeResponse = Promise.method(getFuelRange._shapeResponse);
 
-  return validateRequest(req)
+  return validateRequest(req, res)
     .then((args) => processRequest(args))
     .then((response) => shapeResponse(response))
     .catch((error) => {
       log.info('Error processing user request: ', error);
-      throw new Error({ message: error });
+      res.status(error.code).send({ error: error.message });
+      // throw new Error({ message: error });
     });
 };
 
@@ -47,7 +48,7 @@ getFuelRange._handleRequest = (req) => {
 * @returns {Object} an object with Vehicle id
 */
 
-getFuelRange._validateRequest = (req) => {
+getFuelRange._validateRequest = (req, res) => {
   const id = req.params.id;
   return RequestValidator
           .validate(_.isString(id), {

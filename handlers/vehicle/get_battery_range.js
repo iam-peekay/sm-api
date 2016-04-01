@@ -26,17 +26,18 @@ const getBatteryRange = {};
 * @returns {Object} Formatted response
 */
 
-getBatteryRange._handleRequest = (req) => {
+getBatteryRange._handleRequest = (req, res) => {
   const validateRequest = Promise.method(getBatteryRange._validateRequest);
   const processRequest = Promise.method(getBatteryRange._processRequest);
   const shapeResponse = Promise.method(getBatteryRange._shapeResponse);
 
-  return validateRequest(req)
+  return validateRequest(req, res)
     .then((args) => processRequest(args))
     .then((response) => shapeResponse(response))
     .catch((error) => {
       log.info('Error processing user request: ', error);
-      throw new Error(error);
+      res.status(error.code).send({ error: error.message });
+      // throw new Error(error);
     });
 };
 
@@ -47,7 +48,7 @@ getBatteryRange._handleRequest = (req) => {
 * @returns {Object} an object with Vehicle id
 */
 
-getBatteryRange._validateRequest = (req) => {
+getBatteryRange._validateRequest = (req, res) => {
   const id = req.params.id;
   return RequestValidator
           .validate(_.isString(id), {

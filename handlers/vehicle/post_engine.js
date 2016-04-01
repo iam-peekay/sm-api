@@ -26,17 +26,18 @@ const postEngine = {};
 * @returns {Object} Formatted response
 */
 
-postEngine._handleRequest = (req) => {
+postEngine._handleRequest = (req, res) => {
   const validateRequest = Promise.method(postEngine._validateRequest);
   const processRequest = Promise.method(postEngine._processRequest);
   const shapeResponse = Promise.method(postEngine._shapeResponse);
 
-  return validateRequest(req)
+  return validateRequest(req, res)
     .then((args) => processRequest(args))
     .then((response) => shapeResponse(response))
     .catch((error) => {
       log.info('Error processing user request: ', error);
-      throw new Error(error);
+      res.status(error.code).send({ error: error.message });
+      // throw new Error(error);
     });
 };
 
@@ -47,7 +48,7 @@ postEngine._handleRequest = (req) => {
 * @returns {Object} an object with Vehicle id and type of engine action (START|STOP)
 */
 
-postEngine._validateRequest = (req) => {
+postEngine._validateRequest = (req, res) => {
   const id = req.params.id;
   const action = req.body.action.toUpperCase();
 

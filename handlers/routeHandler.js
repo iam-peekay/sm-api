@@ -13,10 +13,10 @@ const log = bunyan.createLogger({
 */
 
 const routeHandler = (vehicleHandler) => {
-  return (request, response, next) => {
+  return (req, res, next) => {
     if (!vehicleHandler || !_.isObject(vehicleHandler) || !vehicleHandler._handleRequest) {
       log.warn('vehicle handler is undefined or invalid');
-      return response.status(500).send(new errorClass.smartcarServerError(errorMessages.smartcarServerError));
+      return res.status(500).send(new errorClass.smartcarServerError(errorMessages.smartcarServerError));
     }
     /*
     * Returns a new function that wraps the given vehicle request handler
@@ -30,12 +30,12 @@ const routeHandler = (vehicleHandler) => {
     * which will verify and process the request and send back
     * a formatted response.
     */
-    return handleRequest(request)
+    return handleRequest(req, res)
             .then((result) => {
             // Send back response as JSON object
-              return response.json(result);
+              return res.json(result);
             }).catch((error) => {
-               return response.status(400).send({ error: error });
+               return res.status(500).send({ error: new errorClass.smartcarServerError('Internal server error.')});
             });
   };
 };

@@ -26,17 +26,18 @@ const getSecurityInfo = {};
 * @returns {Object} Formatted response
 */
 
-getSecurityInfo._handleRequest = (req) => {
+getSecurityInfo._handleRequest = (req, res) => {
   const validateRequest = Promise.method(getSecurityInfo._validateRequest);
   const processRequest = Promise.method(getSecurityInfo._processRequest);
   const shapeResponse = Promise.method(getSecurityInfo._shapeResponse);
 
-  return validateRequest(req)
+  return validateRequest(req, res)
     .then((args) => processRequest(args))
     .then((response) => shapeResponse(response))
     .catch((error) => {
       log.info('Error processing user request: ', error);
-      throw new Error(error);
+      res.status(error.code).send({ error: error.message });
+      // throw new Error(error);
     });
 };
 
@@ -47,7 +48,7 @@ getSecurityInfo._handleRequest = (req) => {
 * @returns {Object} an object with Vehicle id
 */
 
-getSecurityInfo._validateRequest = (req) => {
+getSecurityInfo._validateRequest = (req, res) => {
   const id = req.params.id;
   return RequestValidator
           .validate(_.isString(id), {
