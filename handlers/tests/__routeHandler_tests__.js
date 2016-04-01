@@ -7,7 +7,7 @@ const routeHandler = require('./../routeHandler');
 const getVehicleInfo = require('./../vehicle/get_vehicle_info');
 const RequestValidator = require('./../../utils/requestValidator');
 const invalidResponse = require('./../../utils/responseValidator');
-const errorMessages = require('./../../utils/errors/messages');
+const errorConstants = require('./../../utils/errors/constants');
 
 describe('rounteHandler', function() {
 
@@ -50,12 +50,10 @@ describe('rounteHandler', function() {
         const id = req.params.id;
         return RequestValidator
                 .validate(_.isString(id), {
-                  type: 'Parameter type',
-                  message: '"Id" param must be a string',
+                  message: 'Parameter type error: "Id" param must be a string',
                 })
                 .validate(_.isEqual(id, '1234') || _.isEqual(id, '1235'), {
-                  type: 'Parameter value',
-                  message: '"Id" param must be either "1234" or "1235"',
+                  message: 'Parameter value error: "Id" param must be either "1234" or "1235"',
                 })
                 .return()
                 .then(() => {
@@ -85,7 +83,7 @@ describe('rounteHandler', function() {
 
       mockHandler._shapeResponse = (response) => {
         const smartcarResponse = {
-          percent: invalidResponse(response.data.tankLevel.value) ? errorMessages.oemResponseError : _.toInteger(response.data.tankLevel.value),
+          percent: invalidResponse(response.data.tankLevel.value) ? errorConstants.oemResponseError : _.toInteger(response.data.tankLevel.value),
         };
         return smartcarResponse;
       };
@@ -107,12 +105,9 @@ describe('rounteHandler', function() {
 
     context('when invalid (mock) vehicle handler is passed in', function() {
       const expectedResult = {
-        'code': 500,
-        'error': errorMessages.smartcarServerError,
-        'message': errorMessages.smartcarServerError,
-        'type': 'smartcar_server_error',
+        'error': 'Invalid or missing vehicle handler.',
+        'message': errorConstants.smartcarServerError,
       };
-
       it('should return 500 internal server response', function() {
         expect(routeHandler({})(mock_request, new mockExpressRes()).json).to.deep.equal(expectedResult);
       });

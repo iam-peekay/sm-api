@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 // Enable CORS for routes
 app.use(cors());
 
-// Define main API endpoint vehicle route
+// Define vehicle API endpoint/route
 app.use('/vehicles', vehiclesRoute);
 require('./routes/vehicles')(vehiclesRoute);
 
@@ -30,5 +30,5 @@ const server = app.listen(port, () => {
   console.info('==> Listening on port %s.', port);
 });
 
-// Export used for testing
+// Export server for testing
 module.exports = server;

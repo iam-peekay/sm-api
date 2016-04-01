@@ -7,7 +7,7 @@ const nockGetVehicleInfo = require('./nock/nockGetVehicleInfo');
 const nockGetSecurityInfo = require('./nock/nockGetSecurityInfo');
 const nockGetEnergyService = require('./nock/nockGetEnergyService');
 const nockActionEngineService = require('./nock/nockActionEngineService');
-const errorMessages = require('./../../utils/errors/messages');
+const errorConstants = require('./../../utils/errors/constants');
 
 describe('GM connector', function() {
 
@@ -72,7 +72,7 @@ describe('GM connector', function() {
                 .catch(function(error) {
                   expect(error.type).to.equal('oem_request_error');
                   expect(error.code).to.equal(500);
-                  expect(error.message).to.equal(errorMessages.oemRequestError);
+                  expect(error.message).to.equal(errorConstants.oemRequestError);
                 });
       });
     });
@@ -137,7 +137,7 @@ describe('GM connector', function() {
                 .catch(function(error) {
                   expect(error.type).to.equal('oem_request_error');
                   expect(error.code).to.equal(500);
-                  expect(error.message).to.equal(errorMessages.oemRequestError);
+                  expect(error.message).to.equal(errorConstants.oemRequestError);
                 });
       });
     });
@@ -200,7 +200,7 @@ describe('GM connector', function() {
                 .catch(function(error) {
                   expect(error.type).to.equal('oem_request_error');
                   expect(error.code).to.equal(500);
-                  expect(error.message).to.equal(errorMessages.oemRequestError);
+                  expect(error.message).to.equal(errorConstants.oemRequestError);
                 });
       });
     });
@@ -263,7 +263,7 @@ describe('GM connector', function() {
                 .catch(function(error) {
                   expect(error.type).to.equal('oem_request_error');
                   expect(error.code).to.equal(500);
-                  expect(error.message).to.equal(errorMessages.oemRequestError);
+                  expect(error.message).to.equal(errorConstants.oemRequestError);
                 });
       });
     });
@@ -327,7 +327,7 @@ describe('GM connector', function() {
                 .catch(function(error) {
                   expect(error.type).to.equal('oem_request_error');
                   expect(error.code).to.equal(500);
-                  expect(error.message).to.equal(errorMessages.oemRequestError);
+                  expect(error.message).to.equal(errorConstants.oemRequestError);
                 });
       });
     });

@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const Promise = require('bluebird');
 const bunyan = require('bunyan');
-const errorMessages = require('./../utils/errors/messages');
+const errorConstants = require('./../utils/errors/constants');
 const errorClass = require('./../utils/errors/errors');
 const log = bunyan.createLogger({
   name: 'handlers/routeHandler',
@@ -13,13 +13,16 @@ const log = bunyan.createLogger({
 */
 
 const routeHandler = (vehicleHandler) => {
-  return (req, res, next) => {
+  return (req, res) => {
+
+    // If vehicle handler is missing, throw error immediately
     if (!vehicleHandler || !_.isObject(vehicleHandler) || !vehicleHandler._handleRequest) {
-      log.warn('vehicle handler is undefined or invalid');
-      return res.status(500).send(new errorClass.smartcarServerError(errorMessages.smartcarServerError));
+      const error = new errorClass.smartcarServerError('Invalid or missing vehicle handler.');
+      log.warn('vehicle handler is undefined or invalid: ', error);
+      return res.status(500).send({ error: error.error, message: error.message });
     }
     /*
-    * Returns a new function that wraps the given vehicle request handler
+    * Returns a new function that wraps the given vehicle request handler.
     * The new function will return a promise that is fulfilled with the
     * original function's return values or rejected with thrown exceptions
     * from the original function.
@@ -34,8 +37,12 @@ const routeHandler = (vehicleHandler) => {
             .then((result) => {
             // Send back response as JSON object
               return res.json(result);
-            }).catch((error) => {
-               return res.status(500).send({ error: new errorClass.smartcarServerError('Internal server error.')});
+            })
+            .catch((error) => {
+               // If the error propogated up to here, then it must mean it's an
+               // uncaught exception.
+               log.warn('Uncaught program error, please check logs ASAP.');
+               return res.status(500).send({ error: 'null', message: errorConstants.smartcarServerError });
             });
   };
 };

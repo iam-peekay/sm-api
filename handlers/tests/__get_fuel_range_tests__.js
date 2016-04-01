@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 const getFuelRange = require('./../vehicle/get_fuel_range');
-const errorMessages = require('./../../utils/errors/messages');
+const errorConstants = require('./../../utils/errors/constants');
 
 describe('getFuelRange handler', function() {
 
@@ -96,7 +96,7 @@ describe('getFuelRange handler', function() {
 
       it('should return an object with "percent" as key and value as an error message', function() {
         const shapedResponse = getFuelRange._shapeResponse(mock_response);
-        expect(shapedResponse.percent).to.equal(errorMessages.oemResponseError);
+        expect(shapedResponse.percent).to.equal(errorConstants.oemResponseError);
         expect(shapedResponse).to.contain.all.keys(['percent']);
       });
     });

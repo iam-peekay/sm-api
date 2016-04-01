@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 const getVehicleInfo = require('./../vehicle/get_vehicle_info');
-const errorMessages = require('./../../utils/errors/messages');
+const errorConstants = require('./../../utils/errors/constants');
 
 describe('getVehicleInfo handler', function() {
 
@@ -123,10 +123,10 @@ describe('getVehicleInfo handler', function() {
 
       it('should return an object with "vin", "color", "doorCount", "driveTrain" as keys and their associated values as an error message', function() {
         const shapedResponse = getVehicleInfo._shapeResponse(mock_response);
-        expect(shapedResponse.vin).to.equal(errorMessages.oemResponseError);
-        expect(shapedResponse.color).to.equal(errorMessages.oemResponseError);
-        expect(shapedResponse.doorCount).to.equal(errorMessages.oemResponseError);
-        expect(shapedResponse.driveTrain).to.equal(errorMessages.oemResponseError);
+        expect(shapedResponse.vin).to.equal(errorConstants.oemResponseError);
+        expect(shapedResponse.color).to.equal(errorConstants.oemResponseError);
+        expect(shapedResponse.doorCount).to.equal(errorConstants.oemResponseError);
+        expect(shapedResponse.driveTrain).to.equal(errorConstants.oemResponseError);
         expect(shapedResponse).to.contain.all.keys(['vin', 'color', 'doorCount', 'driveTrain']);
       });
     });

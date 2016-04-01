@@ -2,7 +2,6 @@ const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 const responseValidator = require('./../responseValidator');
-const errorMessages = require('./../../utils/errors/messages');
 
 describe('responseValidator', function() {
   context('when valid input is passed in', function() {

@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 const postEngine = require('./../vehicle/post_engine');
-const errorMessages = require('./../../utils/errors/messages');
+const errorConstants = require('./../../utils/errors/constants');
 
 describe('postEngine handler', function() {
 
@@ -85,7 +85,7 @@ describe('postEngine handler', function() {
 
       it('should return an object with "status" as key and  and its associated value as an error message', function() {
         const shapedResponse = postEngine._shapeResponse(mock_response);
-        expect(shapedResponse.status).to.equal(errorMessages.oemResponseError);
+        expect(shapedResponse.status).to.equal(errorConstants.oemResponseError);
         expect(shapedResponse).to.contain.all.keys(['status']);
       });
     });

@@ -5,7 +5,7 @@ const connectors = require('./../../connectors/');
 const GMConnector = connectors.getConnector('GM');
 const RequestValidator = require('./../../utils/requestValidator');
 const invalidResponse = require('./../../utils/responseValidator');
-const errorMessages = require('./../../utils/errors/messages');
+const errorConstants = require('./../../utils/errors/constants');
 const log = bunyan.createLogger({
   name: 'handlers/get_fuel_range',
   level: 'debug',
@@ -52,12 +52,10 @@ getFuelRange._validateRequest = (req, res) => {
   const id = req.params.id;
   return RequestValidator
           .validate(_.isString(id), {
-            type: 'Parameter type',
-            message: '"Id" param must be a string',
+            message: 'Parameter type error: "Id" param must be a string',
           })
           .validate(_.isEqual(id, '1234') || _.isEqual(id, '1235'), {
-            type: 'Parameter value',
-            message: '"Id" param must be either "1234" or "1235"',
+            message: 'Parameter value error: "Id" param must be either "1234" or "1235"',
           })
           .return()
           .then(() => {
@@ -87,7 +85,7 @@ getFuelRange._processRequest = (args) => {
 
 getFuelRange._shapeResponse = (response) => {
   const smartcarResponse = {
-    percent: invalidResponse(response.data.tankLevel.value) ? errorMessages.oemResponseError : _.toInteger(response.data.tankLevel.value),
+    percent: invalidResponse(response.data.tankLevel.value) ? errorConstants.oemResponseError : _.toInteger(response.data.tankLevel.value),
   };
   return smartcarResponse;
 };

@@ -1,5 +1,5 @@
 const util = require('util');
-const errorMessages = require('./messages');
+const errorConstants = require('./constants');
 
 /*
 * We use the Node Error class to build our error class:
@@ -16,7 +16,7 @@ ApiError.prototype.requestValidationError = function (error) {
   this.type = 'request_validation_error';
   this.code = 400;
   this.error = error;
-  this.message = errorMessages.validationError;
+  this.message = errorConstants.validationError;
   // Without passing ApiError to captureStackTrace, the ApiError
   // frame would go up in the .stack property. By passing
   // the constructor, we omit that frame and all frames above it.
@@ -27,7 +27,7 @@ ApiError.prototype.OemRequestError = function (error) {
   this.type = 'oem_request_error';
   this.code = 500;
   this.error = error;
-  this.message = errorMessages.oemRequestError;
+  this.message = errorConstants.oemRequestError;
   Error.captureStackTrace(this, ApiError);
 }
 
@@ -35,7 +35,7 @@ ApiError.prototype.smartcarServerError = function (error) {
   this.type = 'smartcar_server_error';
   this.code = 500;
   this.error = error;
-  this.message = errorMessages.smartcarServerError;
+  this.message = errorConstants.smartcarServerError;
   Error.captureStackTrace(this, ApiError);
 }
 
@@ -43,7 +43,7 @@ ApiError.prototype.authenticationError = function (error) {
   this.type = 'authentication_error';
   this.code = 401;
   this.error = error;
-  this.message = errorMessages.authenticationError;
+  this.message = errorConstants.authenticationError;
   Error.captureStackTrace(this, ApiError);
 }
 

@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 const getSecurityInfo = require('./../vehicle/get_security_info');
-const errorMessages = require('./../../utils/errors/messages');
+const errorConstants = require('./../../utils/errors/constants');
 
 describe('getSecurityInfo handler', function() {
 
@@ -134,10 +134,10 @@ describe('getSecurityInfo handler', function() {
       it('should return an array of 2 objects, each of which has keys "location" and "locked" and values as errors', function() {
         const shapedResponse = getSecurityInfo._shapeResponse(mock_response);
         expect(shapedResponse).to.have.lengthOf(2);
-        expect(shapedResponse[0].location).to.equal(errorMessages.oemResponseError);
-        expect(shapedResponse[0].locked).to.equal(errorMessages.oemResponseError);
-        expect(shapedResponse[1].location).to.equal(errorMessages.oemResponseError);
-        expect(shapedResponse[1].locked).to.equal(errorMessages.oemResponseError);
+        expect(shapedResponse[0].location).to.equal(errorConstants.oemResponseError);
+        expect(shapedResponse[0].locked).to.equal(errorConstants.oemResponseError);
+        expect(shapedResponse[1].location).to.equal(errorConstants.oemResponseError);
+        expect(shapedResponse[1].locked).to.equal(errorConstants.oemResponseError);
       });
     });
   });

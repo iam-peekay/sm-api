@@ -5,7 +5,7 @@ const connectors = require('./../../connectors/');
 const GMConnector = connectors.getConnector('GM');
 const RequestValidator = require('./../../utils/requestValidator');
 const invalidResponse = require('./../../utils/responseValidator');
-const errorMessages = require('./../../utils/errors/messages');
+const errorConstants = require('./../../utils/errors/constants');
 const log = bunyan.createLogger({
   name: 'handlers/get_battery_range',
   level: 'debug',
@@ -36,7 +36,8 @@ getBatteryRange._handleRequest = (req, res) => {
     .then((response) => shapeResponse(response))
     .catch((error) => {
       log.info('Error processing user request: ', error);
-      res.status(error.code).send({ error: error.message });
+      // res.status(error.code).send({ error: error.message });
+      next(error);
       // throw new Error(error);
     });
 };
@@ -52,12 +53,10 @@ getBatteryRange._validateRequest = (req, res) => {
   const id = req.params.id;
   return RequestValidator
           .validate(_.isString(id), {
-            type: 'Parameter type',
-            message: '"Id" param must be a string',
+            message: 'Parameter type error: "Id" param must be a string',
           })
           .validate(_.isEqual(id, '1234') || _.isEqual(id, '1235'), {
-            type: 'Parameter value',
-            message: '"Id" param must be either "1234" or "1235"',
+            message: 'Parameter value error: "Id" param must be either "1234" or "1235"',
           })
           .return()
           .then(() => {
@@ -87,7 +86,7 @@ getBatteryRange._processRequest = (args) => {
 
 getBatteryRange._shapeResponse = (response) => {
   const smartcarResponse = {
-    percent: invalidResponse(response.data.batteryLevel.value) ? errorMessages.oemResponseError : _.toInteger(response.data.batteryLevel.value),
+    percent: invalidResponse(response.data.batteryLevel.value) ? errorConstants.oemResponseError : _.toInteger(response.data.batteryLevel.value),
   };
   return smartcarResponse;
 };
